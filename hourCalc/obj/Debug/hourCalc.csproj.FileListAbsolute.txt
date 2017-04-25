@@ -1,0 +1,9 @@
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\bin\Debug\hourCalc.exe.config
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\bin\Debug\hourCalc.exe
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\bin\Debug\hourCalc.pdb
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.hourCalc.resources
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.Properties.Resources.resources
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.csproj.GenerateResource.Cache
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.exe
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.pdb
+c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.csprojResolveAssemblyReference.cache

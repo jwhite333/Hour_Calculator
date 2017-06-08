@@ -19,59 +19,6 @@
             }
             base.Dispose(disposing);
         }
-        void loadData()
-        {
-            // Read any values in from file
-            System.Collections.Generic.List<string> lineList = new System.Collections.Generic.List<string>();
-            System.IO.FileStream fileStream = new System.IO.FileStream("dateStorage.dat", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Read);
-            using (var streamReader = new System.IO.StreamReader(fileStream))
-            {
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    lineList.Add(line);
-                }
-            }
-            fileStream.Close();
-            var timesIn = lineList.ToArray();
-
-            // Iterate through times and try to set them with values from file
-            int counter = 0;
-            foreach (System.Windows.Forms.Control control in this.tableLayoutPanel1.Controls)
-            {
-                if ( control is System.Windows.Forms.DateTimePicker)
-                {
-                    int index = timeMap[control.Name];
-                    if (timesIn.Length > index)
-                    {
-                        // Set with file value
-                        System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = getTime(timesIn[index]);
-                    }
-                    else
-                    {
-                        if (counter >= 0 && counter < 5) // Start of day time, set to 8:00 AM
-                        {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("08:00:00");
-                        }
-                        if (counter >= 5 && counter < 10) // Start of lunch time, set to 12:00 PM
-                        {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("12:00:00");
-                        }
-                        if (counter >= 10 && counter < 15) // End of lunch time, set to 01:00 PM
-                        {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("13:00:00");
-                        }
-                        if (counter >= 15 && counter < 20) // End of day time, set to 05:00 PM
-                        {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("17:00:00");
-                        }
-                        System.Console.WriteLine("Setting min-value for index: {0}", index);
-                    }
-                    counter++;
-                }
-            }
-        }
 
         #region Windows Form Designer generated code
 
@@ -124,6 +71,7 @@
             this.labelCalcDprtDay = new System.Windows.Forms.Label();
             this.labelCalcDprtFri = new System.Windows.Forms.Label();
             this.buttonClear = new System.Windows.Forms.Button();
+            this.buttonSettings = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -559,6 +507,7 @@
             // 
             // buttonSave
             // 
+            this.buttonSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonSave.Location = new System.Drawing.Point(1116, 773);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(209, 23);
@@ -615,7 +564,7 @@
             this.labelTitle.Font = new System.Drawing.Font("Arial Black", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.Location = new System.Drawing.Point(350, 52);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(403, 45);
+            this.labelTitle.Size = new System.Drawing.Size(404, 45);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "Doble Hour Calculator";
             // 
@@ -641,6 +590,7 @@
             // 
             // buttonClear
             // 
+            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonClear.Location = new System.Drawing.Point(876, 773);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(150, 23);
@@ -649,12 +599,24 @@
             this.buttonClear.UseVisualStyleBackColor = true;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
+            // buttonSettings
+            // 
+            this.buttonSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonSettings.Location = new System.Drawing.Point(682, 773);
+            this.buttonSettings.Name = "buttonSettings";
+            this.buttonSettings.Size = new System.Drawing.Size(150, 23);
+            this.buttonSettings.TabIndex = 12;
+            this.buttonSettings.Text = "Settings";
+            this.buttonSettings.UseVisualStyleBackColor = true;
+            this.buttonSettings.Click += new System.EventHandler(this.ConfigButton_Click);
+            // 
             // hourCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1415, 821);
+            this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.labelCalcDprtFri);
             this.Controls.Add(this.labelCalcDprtDay);
@@ -723,31 +685,7 @@
         private System.Windows.Forms.DateTimePicker wedEndTime;
         private System.Windows.Forms.DateTimePicker thuEndTime;
         private System.Windows.Forms.DateTimePicker friEndTime;
-
-        // My Additions
-        private System.Collections.Generic.Dictionary<string, int> timeMap = new System.Collections.Generic.Dictionary<string, int>()
-        {
-            { "monStartTime", 0 },
-            { "tueStartTime", 1 },
-            { "wedStartTime", 2 },
-            { "thuStartTime", 3 },
-            { "friStartTime", 4 },
-            { "monLunchStartTime", 5 },
-            { "tueLunchStartTime", 6 },
-            { "wedLunchStartTime", 7 },
-            { "thuLunchStartTime", 8 },
-            { "friLunchStartTime", 9 },
-            { "monLunchEndTime", 10 },
-            { "tueLunchEndTime",  11},
-            { "wedLunchEndTime", 12 },
-            { "thuLunchEndTime", 13 },
-            { "friLunchEndTime", 14 },
-            { "monEndTime", 15 },
-            { "tueEndTime", 16 },
-            { "wedEndTime", 17 },
-            { "thuEndTime", 18 },
-            { "friEndTime", 19 }
-        };
+        private System.Windows.Forms.Button buttonSettings;
     }
 }
 

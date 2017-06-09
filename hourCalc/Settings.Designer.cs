@@ -31,10 +31,10 @@
             this.labelSettingsHeader = new System.Windows.Forms.Label();
             this.labelDefaultTimes = new System.Windows.Forms.Label();
             this.labelStartofDay = new System.Windows.Forms.Label();
-            this.monStartTime = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker3 = new System.Windows.Forms.DateTimePicker();
+            this.StartOfDayTime = new System.Windows.Forms.DateTimePicker();
+            this.LunchStartTime = new System.Windows.Forms.DateTimePicker();
+            this.LunchEndTime = new System.Windows.Forms.DateTimePicker();
+            this.EndOfDayTime = new System.Windows.Forms.DateTimePicker();
             this.labelLunchStart = new System.Windows.Forms.Label();
             this.labelLunchEnd = new System.Windows.Forms.Label();
             this.labelEndofDay = new System.Windows.Forms.Label();
@@ -73,53 +73,57 @@
             this.labelStartofDay.TabIndex = 2;
             this.labelStartofDay.Text = "Start of Day";
             // 
-            // monStartTime
+            // StartOfDayTime
             // 
-            this.monStartTime.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.monStartTime.CustomFormat = "hh:mm:ss  tt";
-            this.monStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.monStartTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.monStartTime.Location = new System.Drawing.Point(237, 77);
-            this.monStartTime.Name = "monStartTime";
-            this.monStartTime.ShowUpDown = true;
-            this.monStartTime.Size = new System.Drawing.Size(145, 20);
-            this.monStartTime.TabIndex = 21;
+            this.StartOfDayTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.StartOfDayTime.CustomFormat = "hh:mm:ss  tt";
+            this.StartOfDayTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.StartOfDayTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.StartOfDayTime.Location = new System.Drawing.Point(237, 77);
+            this.StartOfDayTime.Name = "StartOfDayTime";
+            this.StartOfDayTime.ShowUpDown = true;
+            this.StartOfDayTime.Size = new System.Drawing.Size(145, 20);
+            this.StartOfDayTime.TabIndex = 21;
+            this.StartOfDayTime.ValueChanged += new System.EventHandler(this.StartOfDayTime_ValueChanged);
             // 
-            // dateTimePicker1
+            // LunchStartTime
             // 
-            this.dateTimePicker1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker1.CustomFormat = "hh:mm:ss  tt";
-            this.dateTimePicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePicker1.Location = new System.Drawing.Point(237, 103);
-            this.dateTimePicker1.Name = "dateTimePicker1";
-            this.dateTimePicker1.ShowUpDown = true;
-            this.dateTimePicker1.Size = new System.Drawing.Size(145, 20);
-            this.dateTimePicker1.TabIndex = 22;
+            this.LunchStartTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LunchStartTime.CustomFormat = "hh:mm:ss  tt";
+            this.LunchStartTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.LunchStartTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.LunchStartTime.Location = new System.Drawing.Point(237, 103);
+            this.LunchStartTime.Name = "LunchStartTime";
+            this.LunchStartTime.ShowUpDown = true;
+            this.LunchStartTime.Size = new System.Drawing.Size(145, 20);
+            this.LunchStartTime.TabIndex = 22;
+            this.LunchStartTime.ValueChanged += new System.EventHandler(this.LunchStartTime_ValueChanged);
             // 
-            // dateTimePicker2
+            // LunchEndTime
             // 
-            this.dateTimePicker2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker2.CustomFormat = "hh:mm:ss  tt";
-            this.dateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePicker2.Location = new System.Drawing.Point(237, 129);
-            this.dateTimePicker2.Name = "dateTimePicker2";
-            this.dateTimePicker2.ShowUpDown = true;
-            this.dateTimePicker2.Size = new System.Drawing.Size(145, 20);
-            this.dateTimePicker2.TabIndex = 23;
+            this.LunchEndTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.LunchEndTime.CustomFormat = "hh:mm:ss  tt";
+            this.LunchEndTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.LunchEndTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.LunchEndTime.Location = new System.Drawing.Point(237, 129);
+            this.LunchEndTime.Name = "LunchEndTime";
+            this.LunchEndTime.ShowUpDown = true;
+            this.LunchEndTime.Size = new System.Drawing.Size(145, 20);
+            this.LunchEndTime.TabIndex = 23;
+            this.LunchEndTime.ValueChanged += new System.EventHandler(this.LunchEndTime_ValueChanged);
             // 
-            // dateTimePicker3
+            // EndOfDayTime
             // 
-            this.dateTimePicker3.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.dateTimePicker3.CustomFormat = "hh:mm:ss  tt";
-            this.dateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker3.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dateTimePicker3.Location = new System.Drawing.Point(237, 155);
-            this.dateTimePicker3.Name = "dateTimePicker3";
-            this.dateTimePicker3.ShowUpDown = true;
-            this.dateTimePicker3.Size = new System.Drawing.Size(145, 20);
-            this.dateTimePicker3.TabIndex = 24;
+            this.EndOfDayTime.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.EndOfDayTime.CustomFormat = "hh:mm:ss  tt";
+            this.EndOfDayTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.EndOfDayTime.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.EndOfDayTime.Location = new System.Drawing.Point(237, 155);
+            this.EndOfDayTime.Name = "EndOfDayTime";
+            this.EndOfDayTime.ShowUpDown = true;
+            this.EndOfDayTime.Size = new System.Drawing.Size(145, 20);
+            this.EndOfDayTime.TabIndex = 24;
+            this.EndOfDayTime.ValueChanged += new System.EventHandler(this.EndOfDayTime_ValueChanged);
             // 
             // labelLunchStart
             // 
@@ -167,6 +171,7 @@
             this.checkBoxTwoWeekCycle.TabIndex = 29;
             this.checkBoxTwoWeekCycle.Text = "On";
             this.checkBoxTwoWeekCycle.UseVisualStyleBackColor = true;
+            this.checkBoxTwoWeekCycle.CheckedChanged += new System.EventHandler(this.checkBoxTwoWeekCycle_CheckedChanged);
             // 
             // label1
             // 
@@ -186,6 +191,7 @@
             this.buttonApply.TabIndex = 31;
             this.buttonApply.Text = "Apply";
             this.buttonApply.UseVisualStyleBackColor = true;
+            this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
             // Settings
             // 
@@ -199,10 +205,10 @@
             this.Controls.Add(this.labelEndofDay);
             this.Controls.Add(this.labelLunchEnd);
             this.Controls.Add(this.labelLunchStart);
-            this.Controls.Add(this.dateTimePicker3);
-            this.Controls.Add(this.dateTimePicker2);
-            this.Controls.Add(this.dateTimePicker1);
-            this.Controls.Add(this.monStartTime);
+            this.Controls.Add(this.StartOfDayTime);
+            this.Controls.Add(this.LunchStartTime);
+            this.Controls.Add(this.LunchEndTime);
+            this.Controls.Add(this.EndOfDayTime);
             this.Controls.Add(this.labelStartofDay);
             this.Controls.Add(this.labelDefaultTimes);
             this.Controls.Add(this.labelSettingsHeader);
@@ -220,10 +226,10 @@
         private System.Windows.Forms.Label labelSettingsHeader;
         private System.Windows.Forms.Label labelDefaultTimes;
         private System.Windows.Forms.Label labelStartofDay;
-        private System.Windows.Forms.DateTimePicker monStartTime;
-        private System.Windows.Forms.DateTimePicker dateTimePicker1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker2;
-        private System.Windows.Forms.DateTimePicker dateTimePicker3;
+        private System.Windows.Forms.DateTimePicker StartOfDayTime;
+        private System.Windows.Forms.DateTimePicker LunchStartTime;
+        private System.Windows.Forms.DateTimePicker LunchEndTime;
+        private System.Windows.Forms.DateTimePicker EndOfDayTime;
         private System.Windows.Forms.Label labelLunchStart;
         private System.Windows.Forms.Label labelLunchEnd;
         private System.Windows.Forms.Label labelEndofDay;

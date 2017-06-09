@@ -42,11 +42,49 @@ namespace hourCalc
             { "thuEndTime", 18 },
             { "friEndTime", 19 }
         };
+
+        public struct config
+        {
+            /*public void defaultStartOfDay(System.DateTime time)
+            {
+                defaultStartOfDayTime = time;
+            }
+            public void defaultLunchStart(System.DateTime time)
+            {
+                defaultLunchStartTime = time;
+            }
+            public void defaultLunchEnd(System.DateTime time)
+            {
+                defaultLunchEndTime = time;
+            }
+            public void defaultEndOfDay(System.DateTime time)
+            {
+                defaultEndOfDayTime = time;
+            }
+            public void twoWeekCycle(bool enabled)
+            {
+                twoWeekCycleEnabled = enabled;
+            }*/
+
+            System.DateTime defaultStartOfDayTime;
+            System.DateTime defaultLunchStartTime;
+            System.DateTime defaultLunchEndTime;
+            System.DateTime defaultEndOfDayTime;
+            bool twoWeekCycleEnabled;
+        };
+        public config settings;
+        Settings settingsForm;
+
         void loadData()
         {
+            // Load settings
+            settings = new config();
+            settingsForm = new Settings(this);
+            loadSettings();
+
             // Read any values in from file
             System.Collections.Generic.List<string> lineList = new System.Collections.Generic.List<string>();
-            System.IO.FileStream fileStream = new System.IO.FileStream("dateStorage.dat", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Read);
+            System.IO.FileStream fileStream = new System.IO.FileStream("HC_Data.dat", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Read);
             using (var streamReader = new System.IO.StreamReader(fileStream))
             {
                 string line;
@@ -96,15 +134,10 @@ namespace hourCalc
             }
         }
 
-        /*public string formatTime(string time)
+        private void loadSettings()
         {
-            //Get rid of date
-            int firstSpaceIndex = time.IndexOf(" ");
-            string subStr = time.Substring(firstSpaceIndex, (time.Length - firstSpaceIndex));
-
-            //Get rid of AM/PM specifier
-            return subStr.Substring(0, (subStr.Length - 3));
-        }*/
+            // Load configuration settings
+        }
 
         public System.DateTime getTime(string time)
         {
@@ -244,7 +277,7 @@ namespace hourCalc
         {
             MessageBox.Show("Saved!", "Doble Hour Calculator");
 
-            System.IO.StreamWriter file = new System.IO.StreamWriter("dateStorage.dat");
+            System.IO.StreamWriter file = new System.IO.StreamWriter("HC_Data.dat");
             foreach (System.Windows.Forms.Control control in this.tableLayoutPanel1.Controls)
                 {
                 if (control is System.Windows.Forms.DateTimePicker)
@@ -334,7 +367,7 @@ namespace hourCalc
             if (result == System.Windows.Forms.DialogResult.Yes)
             {
                 // Clear Data file
-                System.IO.FileStream fileStream = new System.IO.FileStream("dateStorage.dat", System.IO.FileMode.Truncate);
+                System.IO.FileStream fileStream = new System.IO.FileStream("HC_Data.dat", System.IO.FileMode.Truncate);
                 fileStream.Close();
                 this.loadData();
             }
@@ -345,8 +378,7 @@ namespace hourCalc
         private void ConfigButton_Click(object sender, EventArgs e)
         {
             // Load a new form that shows configuration data
-            Settings form = new Settings();
-            form.Show();
+            settingsForm.Show();
         }
     }
 }

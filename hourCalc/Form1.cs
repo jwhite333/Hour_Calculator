@@ -43,58 +43,20 @@ namespace hourCalc
             { "friEndTime", 19 }
         };
 
-        public struct config
-        {
-            /*public void defaultStartOfDay(System.DateTime time)
-            {
-                defaultStartOfDayTime = time;
-            }
-            public void defaultLunchStart(System.DateTime time)
-            {
-                defaultLunchStartTime = time;
-            }
-            public void defaultLunchEnd(System.DateTime time)
-            {
-                defaultLunchEndTime = time;
-            }
-            public void defaultEndOfDay(System.DateTime time)
-            {
-                defaultEndOfDayTime = time;
-            }
-            public void twoWeekCycle(bool enabled)
-            {
-                twoWeekCycleEnabled = enabled;
-            }*/
-
-            System.DateTime defaultStartOfDayTime;
-            System.DateTime defaultLunchStartTime;
-            System.DateTime defaultLunchEndTime;
-            System.DateTime defaultEndOfDayTime;
-            bool twoWeekCycleEnabled;
-        };
-        public config settings;
+        private Helpers.config settings;
         Settings settingsForm;
 
         void loadData()
         {
+            // Create Helpers instance
+            Helpers Helper = new Helpers();
+
             // Load settings
-            settings = new config();
+            settings = new Helpers.config();
             settingsForm = new Settings(this);
             loadSettings();
 
-            // Read any values in from file
-            System.Collections.Generic.List<string> lineList = new System.Collections.Generic.List<string>();
-            System.IO.FileStream fileStream = new System.IO.FileStream("HC_Data.dat", System.IO.FileMode.OpenOrCreate, System.IO.FileAccess.Read);
-            using (var streamReader = new System.IO.StreamReader(fileStream))
-            {
-                string line;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    lineList.Add(line);
-                }
-            }
-            fileStream.Close();
-            var timesIn = lineList.ToArray();
+            var timesIn = Helper.readFile("HC_Data.dat");
 
             // Iterate through times and try to set them with values from file
             int counter = 0;

@@ -7,3 +7,23 @@ c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.exe
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.pdb
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Debug\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\bin\Debug\hourCalc.exe.config
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.exe
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.pdb
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\bin\Debug\hourCalc.exe
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\bin\Debug\hourCalc.pdb
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.hourCalc.resources
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.Properties.Resources.resources
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.csproj.GenerateResource.Cache
+C:\Users\jwhite\Desktop\Hour_Calculator-master\hourCalc\obj\Debug\hourCalc.Settings.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.exe.config
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.exe
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.pdb
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.exe
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.pdb
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.hourCalc.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Properties.Resources.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Settings.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.csproj.GenerateResource.Cache

@@ -44,17 +44,17 @@ namespace hourCalc
         };
 
         private Helpers.config settings;
+        private Helpers Helper;
         Settings settingsForm;
 
-        void loadData()
+        public void loadData()
         {
             // Create Helpers instance
-            Helpers Helper = new Helpers();
+            Helper = new Helpers();
 
             // Load settings
-            settings = new Helpers.config();
             settingsForm = new Settings(this);
-            loadSettings();
+            settings = Helper.getSettings();
 
             var timesIn = Helper.readFile("HC_Data.dat");
 
@@ -69,91 +69,31 @@ namespace hourCalc
                     {
                         // Set with file value
                         System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = getTime(timesIn[index]);
+                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(timesIn[index]);
                     }
                     else
                     {
                         if (counter >= 0 && counter < 5) // Start of day time, set to 8:00 AM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("08:00:00");
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultStartOfDay();
                         }
                         if (counter >= 5 && counter < 10) // Start of lunch time, set to 12:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("12:00:00");
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchStart();
                         }
                         if (counter >= 10 && counter < 15) // End of lunch time, set to 01:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("13:00:00");
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchEnd();
                         }
                         if (counter >= 15 && counter < 20) // End of day time, set to 05:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = getTime("17:00:00");
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDay();
                         }
                         System.Console.WriteLine("Setting min-value for index: {0}", index);
                     }
                     counter++;
                 }
             }
-        }
-
-        private void loadSettings()
-        {
-            // Load configuration settings
-        }
-
-        public System.DateTime getTime(string time)
-        {
-            // Get formatted time
-            while (time[0] == ' ')
-                time = time.Substring(1, time.Length - 1);
-            int indexOfColon = time.IndexOf(":");
-            int hours = System.Convert.ToInt32(time.Substring(0, indexOfColon));
-            int minutes = System.Convert.ToInt32(time.Substring(indexOfColon + 1, 2));
-            int seconds = System.Convert.ToInt32(time.Substring(indexOfColon + 4, 2));
-
-            // Create a DateTime object
-            System.DateTime dateTime = new DateTime(2017, 1, 1, hours, minutes, seconds);
-            return dateTime;
-        }
-
-        public double timeToNum(System.DateTime dateTime)
-        {
-            double hours = (double)dateTime.Hour;
-            hours += ((double)dateTime.Minute / 60.0);
-            hours += ((double)dateTime.Second / 3600.0);
-            return hours;
-        }
-
-        public System.DateTime numToTime(double number)
-        {
-            int hours = (int)(number % 24);
-            number -= (double)hours;
-            int minutes = (int)((number * 60.0) % 60);
-            number -= (double)(minutes / 60.0);
-            int seconds = (int)((number * 3600.0) % 3600);
-
-            System.DateTime dateTime = new DateTime(2017, 1, 1, hours, minutes, seconds);
-            return dateTime;
-        }
-
-        public string timeToString(System.DateTime dateTime)
-        {
-            string specifier = "  AM";
-            int hourNum = dateTime.Hour;
-            if (hourNum > 12)
-            {
-                hourNum = dateTime.Hour - 12;
-                specifier = "  PM";
-            }
-            string hours = hourNum.ToString();
-            string minutes = dateTime.Minute.ToString();
-            string seconds = dateTime.Second.ToString();
-            if (minutes.Length == 1)
-                minutes = minutes.Insert(0, "0");
-            if (seconds.Length == 1)
-                seconds = seconds.Insert(0, "0");
-            return (hours + ":" + minutes + ":" + seconds + specifier);
-            
         }
 
         public double getDepartTime(string day)
@@ -163,8 +103,8 @@ namespace hourCalc
             {
                 case "Monday":
                     {
-                        double morningHours = (timeToNum(monLunchStartTime.Value) - timeToNum(monStartTime.Value));
-                        double afternoonHours = (timeToNum(monEndTime.Value) - timeToNum(monLunchEndTime.Value));
+                        double morningHours = (Helper.timeToNum(monLunchStartTime.Value) - Helper.timeToNum(monStartTime.Value));
+                        double afternoonHours = (Helper.timeToNum(monEndTime.Value) - Helper.timeToNum(monLunchEndTime.Value));
                         if (morningHours < 0 || afternoonHours < 0)
                         {
                             MessageBox.Show("Undefined Result, check that time values are chronological", "Doble Hour Calculator");
@@ -176,8 +116,8 @@ namespace hourCalc
                     break;
                 case "Tuesday":
                     {
-                        double morningHours = (timeToNum(tueLunchStartTime.Value) - timeToNum(tueStartTime.Value));
-                        double afternoonHours = (timeToNum(tueEndTime.Value) - timeToNum(tueLunchEndTime.Value));
+                        double morningHours = (Helper.timeToNum(tueLunchStartTime.Value) - Helper.timeToNum(tueStartTime.Value));
+                        double afternoonHours = (Helper.timeToNum(tueEndTime.Value) - Helper.timeToNum(tueLunchEndTime.Value));
                         if (morningHours < 0 || afternoonHours < 0)
                         {
                             MessageBox.Show("Undefined Result, check that time values are chronological");
@@ -189,8 +129,8 @@ namespace hourCalc
                     break;
                 case "Wednesday":
                     {
-                        double morningHours = (timeToNum(wedLunchStartTime.Value) - timeToNum(wedStartTime.Value));
-                        double afternoonHours = (timeToNum(wedEndTime.Value) - timeToNum(wedLunchEndTime.Value));
+                        double morningHours = (Helper.timeToNum(wedLunchStartTime.Value) - Helper.timeToNum(wedStartTime.Value));
+                        double afternoonHours = (Helper.timeToNum(wedEndTime.Value) - Helper.timeToNum(wedLunchEndTime.Value));
                         if (morningHours < 0 || afternoonHours < 0)
                         {
                             MessageBox.Show("Undefined Result, check that time values are chronological");
@@ -202,8 +142,8 @@ namespace hourCalc
                     break;
                 case "Thursday":
                     {
-                        double morningHours = (timeToNum(thuLunchStartTime.Value) - timeToNum(thuStartTime.Value));
-                        double afternoonHours = (timeToNum(thuEndTime.Value) - timeToNum(thuLunchEndTime.Value));
+                        double morningHours = (Helper.timeToNum(thuLunchStartTime.Value) - Helper.timeToNum(thuStartTime.Value));
+                        double afternoonHours = (Helper.timeToNum(thuEndTime.Value) - Helper.timeToNum(thuLunchEndTime.Value));
                         if (morningHours < 0 || afternoonHours < 0)
                         {
                             MessageBox.Show("Undefined Result, check that time values are chronological");
@@ -215,8 +155,8 @@ namespace hourCalc
                     break;
                 case "Friday":
                     {
-                        double morningHours = (timeToNum(friLunchStartTime.Value) - timeToNum(friStartTime.Value));
-                        double afternoonHours = (timeToNum(friEndTime.Value) - timeToNum(friLunchEndTime.Value));
+                        double morningHours = (Helper.timeToNum(friLunchStartTime.Value) - Helper.timeToNum(friStartTime.Value));
+                        double afternoonHours = (Helper.timeToNum(friEndTime.Value) - Helper.timeToNum(friLunchEndTime.Value));
                         if (morningHours < 0 || afternoonHours < 0)
                         {
                             MessageBox.Show("Undefined Result, check that time values are chronological");
@@ -247,16 +187,7 @@ namespace hourCalc
                     // Write the string to a file.
                     System.Console.WriteLine("Saved time for {0}", control.Name);
                     System.DateTime dateTime = ((System.Windows.Forms.DateTimePicker)control).Value;
-                    string hours = dateTime.Hour.ToString();
-                    if (hours.Length == 1)
-                        hours = hours.Insert(0, "0");
-                    string minutes = dateTime.Minute.ToString();
-                    if (minutes.Length == 1)
-                        minutes = minutes.Insert(0, "0");
-                    string seconds = dateTime.Second.ToString();
-                    if (seconds.Length == 1)
-                        seconds = seconds.Insert(0, "0");
-                    file.WriteLine(hours + ":" + minutes + ":" + seconds);
+                    file.WriteLine(Helper.formatTime(dateTime));
                 }
             }
             file.Close();
@@ -272,34 +203,34 @@ namespace hourCalc
             {
                 case "Monday":
                     {
-                        result += timeToNum(monEndTime.Value);
+                        result += Helper.timeToNum(monEndTime.Value);
                     }
                     break;
                 case "Tuesday":
                     {
-                        result += timeToNum(tueEndTime.Value);
+                        result += Helper.timeToNum(tueEndTime.Value);
                     }
                     break;
                 case "Wednesday":
                     {
-                        result += timeToNum(wedEndTime.Value);
+                        result += Helper.timeToNum(wedEndTime.Value);
                     }
                     break;
                 case "Thursday":
                     {
-                        result += timeToNum(thuEndTime.Value);
+                        result += Helper.timeToNum(thuEndTime.Value);
                     }
                     break;
                 case "Friday":
                     {
-                        result += timeToNum(friEndTime.Value);
+                        result += Helper.timeToNum(friEndTime.Value);
                     }
                     break;
             }
             
             // Set value
-            System.DateTime Time = numToTime(result);
-            this.calcDprtDayOutput.Text = timeToString(Time);
+            System.DateTime Time = Helper.numToTime(result);
+            this.calcDprtDayOutput.Text = Helper.timeToString(Time);
         }
 
         private void buttonCalcWeek_Click(object sender, EventArgs e)
@@ -309,11 +240,11 @@ namespace hourCalc
             double wedResult = getDepartTime("Wednesday");
             double thuResult = getDepartTime("Thursday");
             double friResult = getDepartTime("Friday");
-            double result = monResult + tueResult + wedResult + thuResult + friResult + timeToNum(friEndTime.Value);
+            double result = monResult + tueResult + wedResult + thuResult + friResult + Helper.timeToNum(friEndTime.Value);
 
             // Set value
-            System.DateTime Time = numToTime(result);
-            this.calcDprtFriOutput.Text = timeToString(Time);
+            System.DateTime Time = Helper.numToTime(result);
+            this.calcDprtFriOutput.Text = Helper.timeToString(Time);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)

@@ -72,6 +72,8 @@
             this.labelCalcDprtFri = new System.Windows.Forms.Label();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
+            this.labelCarryOverHours = new System.Windows.Forms.Label();
+            this.textBoxCarryOverHours = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -489,7 +491,7 @@
             "Wednesday",
             "Thursday",
             "Friday"});
-            this.comboBoxSelectDay.Location = new System.Drawing.Point(248, 286);
+            this.comboBoxSelectDay.Location = new System.Drawing.Point(248, 364);
             this.comboBoxSelectDay.Name = "comboBoxSelectDay";
             this.comboBoxSelectDay.Size = new System.Drawing.Size(121, 21);
             this.comboBoxSelectDay.TabIndex = 2;
@@ -497,7 +499,7 @@
             // 
             // buttonCalcDay
             // 
-            this.buttonCalcDay.Location = new System.Drawing.Point(54, 357);
+            this.buttonCalcDay.Location = new System.Drawing.Point(54, 449);
             this.buttonCalcDay.Name = "buttonCalcDay";
             this.buttonCalcDay.Size = new System.Drawing.Size(120, 35);
             this.buttonCalcDay.TabIndex = 3;
@@ -518,7 +520,7 @@
             // 
             // buttonCalcWeek
             // 
-            this.buttonCalcWeek.Location = new System.Drawing.Point(54, 562);
+            this.buttonCalcWeek.Location = new System.Drawing.Point(54, 657);
             this.buttonCalcWeek.Name = "buttonCalcWeek";
             this.buttonCalcWeek.Size = new System.Drawing.Size(120, 35);
             this.buttonCalcWeek.TabIndex = 5;
@@ -529,7 +531,7 @@
             // calcDprtDayOutput
             // 
             this.calcDprtDayOutput.BackColor = System.Drawing.SystemColors.Window;
-            this.calcDprtDayOutput.Location = new System.Drawing.Point(234, 359);
+            this.calcDprtDayOutput.Location = new System.Drawing.Point(234, 449);
             this.calcDprtDayOutput.Multiline = true;
             this.calcDprtDayOutput.Name = "calcDprtDayOutput";
             this.calcDprtDayOutput.ReadOnly = true;
@@ -539,7 +541,7 @@
             // calcDprtFriOutput
             // 
             this.calcDprtFriOutput.BackColor = System.Drawing.SystemColors.Window;
-            this.calcDprtFriOutput.Location = new System.Drawing.Point(234, 565);
+            this.calcDprtFriOutput.Location = new System.Drawing.Point(234, 657);
             this.calcDprtFriOutput.Multiline = true;
             this.calcDprtFriOutput.Name = "calcDprtFriOutput";
             this.calcDprtFriOutput.ReadOnly = true;
@@ -564,7 +566,7 @@
             this.labelTitle.Font = new System.Drawing.Font("Arial Black", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.Location = new System.Drawing.Point(350, 52);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(404, 45);
+            this.labelTitle.Size = new System.Drawing.Size(403, 45);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "Doble Hour Calculator";
             // 
@@ -572,7 +574,7 @@
             // 
             this.labelCalcDprtDay.AutoSize = true;
             this.labelCalcDprtDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCalcDprtDay.Location = new System.Drawing.Point(12, 287);
+            this.labelCalcDprtDay.Location = new System.Drawing.Point(12, 367);
             this.labelCalcDprtDay.Name = "labelCalcDprtDay";
             this.labelCalcDprtDay.Size = new System.Drawing.Size(216, 16);
             this.labelCalcDprtDay.TabIndex = 9;
@@ -582,7 +584,7 @@
             // 
             this.labelCalcDprtFri.AutoSize = true;
             this.labelCalcDprtFri.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCalcDprtFri.Location = new System.Drawing.Point(12, 484);
+            this.labelCalcDprtFri.Location = new System.Drawing.Point(12, 573);
             this.labelCalcDprtFri.Name = "labelCalcDprtFri";
             this.labelCalcDprtFri.Size = new System.Drawing.Size(237, 16);
             this.labelCalcDprtFri.TabIndex = 10;
@@ -610,12 +612,34 @@
             this.buttonSettings.UseVisualStyleBackColor = true;
             this.buttonSettings.Click += new System.EventHandler(this.ConfigButton_Click);
             // 
+            // labelCarryOverHours
+            // 
+            this.labelCarryOverHours.AutoSize = true;
+            this.labelCarryOverHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelCarryOverHours.Location = new System.Drawing.Point(12, 216);
+            this.labelCarryOverHours.Name = "labelCarryOverHours";
+            this.labelCarryOverHours.Size = new System.Drawing.Size(130, 16);
+            this.labelCarryOverHours.TabIndex = 13;
+            this.labelCarryOverHours.Text = "Last Week Hours:";
+            // 
+            // textBoxCarryOverHours
+            // 
+            this.textBoxCarryOverHours.BackColor = System.Drawing.SystemColors.Window;
+            this.textBoxCarryOverHours.Location = new System.Drawing.Point(54, 261);
+            this.textBoxCarryOverHours.Multiline = true;
+            this.textBoxCarryOverHours.Name = "textBoxCarryOverHours";
+            this.textBoxCarryOverHours.ReadOnly = true;
+            this.textBoxCarryOverHours.Size = new System.Drawing.Size(135, 30);
+            this.textBoxCarryOverHours.TabIndex = 14;
+            // 
             // hourCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1415, 821);
+            this.Controls.Add(this.textBoxCarryOverHours);
+            this.Controls.Add(this.labelCarryOverHours);
             this.Controls.Add(this.buttonSettings);
             this.Controls.Add(this.buttonClear);
             this.Controls.Add(this.labelCalcDprtFri);
@@ -686,6 +710,8 @@
         private System.Windows.Forms.DateTimePicker thuEndTime;
         private System.Windows.Forms.DateTimePicker friEndTime;
         private System.Windows.Forms.Button buttonSettings;
+        private System.Windows.Forms.Label labelCarryOverHours;
+        private System.Windows.Forms.TextBox textBoxCarryOverHours;
     }
 }
 

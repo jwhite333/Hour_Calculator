@@ -27,3 +27,13 @@ C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.hou
 C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Properties.Resources.resources
 C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Settings.resources
 C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.csproj.GenerateResource.Cache
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.exe.config
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.exe
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\bin\Debug\hourCalc.pdb
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.hourCalc.resources
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Properties.Resources.resources
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.Settings.resources
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.csproj.GenerateResource.Cache
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.exe
+C:\Users\jonny\OneDrive\Documents\GitHub\Hour_Calculator\hourCalc\obj\Debug\hourCalc.pdb

@@ -42,6 +42,9 @@
             this.checkBoxTwoWeekCycle = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonApply = new System.Windows.Forms.Button();
+            this.checkBoxIgnoreCarryOver = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // labelSettingsHeader
@@ -178,10 +181,10 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(233, 224);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(285, 26);
+            this.label1.Size = new System.Drawing.Size(285, 39);
             this.label1.TabIndex = 30;
             this.label1.Text = "* If enabled hours will be tracked on a two week pay cycle,\r\n   targeting 80 hour" +
-    "s instead of 40 (default - on)";
+    "s instead of 40 \r\n   ( default - on )";
             // 
             // buttonApply
             // 
@@ -193,11 +196,45 @@
             this.buttonApply.UseVisualStyleBackColor = true;
             this.buttonApply.Click += new System.EventHandler(this.buttonApply_Click);
             // 
+            // checkBoxIgnoreCarryOver
+            // 
+            this.checkBoxIgnoreCarryOver.AutoSize = true;
+            this.checkBoxIgnoreCarryOver.Location = new System.Drawing.Point(156, 277);
+            this.checkBoxIgnoreCarryOver.Name = "checkBoxIgnoreCarryOver";
+            this.checkBoxIgnoreCarryOver.Size = new System.Drawing.Size(109, 17);
+            this.checkBoxIgnoreCarryOver.TabIndex = 32;
+            this.checkBoxIgnoreCarryOver.Text = "Ignore Carry Over";
+            this.checkBoxIgnoreCarryOver.UseVisualStyleBackColor = true;
+            this.checkBoxIgnoreCarryOver.CheckedChanged += new System.EventHandler(this.checkBoxIgnoreCarryOver_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(284, 277);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(234, 39);
+            this.label2.TabIndex = 33;
+            this.label2.Text = "* If enabled the Friday departure time calculation\r\n   will ignore any hours from" +
+    " the previous week\r\n   ( default - off )";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(388, 77);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(114, 65);
+            this.label3.TabIndex = 34;
+            this.label3.Text = "* Note:\r\n   Times will only\r\n   reset to these values\r\n   when a new week\r\n   is " +
+    "started";
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(530, 434);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.checkBoxIgnoreCarryOver);
             this.Controls.Add(this.buttonApply);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.checkBoxTwoWeekCycle);
@@ -237,5 +274,8 @@
         private System.Windows.Forms.CheckBox checkBoxTwoWeekCycle;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonApply;
+        private System.Windows.Forms.CheckBox checkBoxIgnoreCarryOver;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }

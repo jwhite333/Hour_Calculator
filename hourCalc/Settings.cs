@@ -21,15 +21,16 @@ namespace hourCalc
         // Keep an instance of the parent form / class hourCalc
         private hourCalc hourCalcRef;
         private Helpers Helper;
-        private Helpers.config settings;
+        private config settings;
 
-        private System.Collections.Generic.Dictionary<string, int> settingsMap = new System.Collections.Generic.Dictionary<string, int>()
+        private System.Collections.Generic.Dictionary<string, int> dataMap = new System.Collections.Generic.Dictionary<string, int>()
         {
             { "StartOfDayTime", 0 },
             { "LunchStartTime", 1 },
             { "LunchEndTime", 2 },
             { "EndOfDayTime", 3 },
-            { "checkBoxTwoWeekCycle", 4 }
+            { "checkBoxTwoWeekCycle", 4 },
+            { "checkBoxIgnoreCarryOver", 5 }
         };
 
         private void Settings_Load(object sender, EventArgs e)
@@ -41,7 +42,7 @@ namespace hourCalc
             settings = Helper.getSettings();
 
             // Load current settings from file when setting page loads
-            var settingsIn = Helper.readFile("HC_Settings.dat");
+            var dataIn = Helper.readFile("HC_Settings.dat");
 
             // Iterate through settings and try to set them with values from file
             int counter = 0;
@@ -50,12 +51,12 @@ namespace hourCalc
                 // If setting is a time value (dateTimePicker)
                 if (control is System.Windows.Forms.DateTimePicker)
                 {
-                    int index = settingsMap[control.Name];
-                    if (settingsIn.Length > index)
+                    int index = dataMap[control.Name];
+                    if (dataIn.Length > index)
                     {
                         // Set with file value
                         System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(settingsIn[index]);
+                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(dataIn[index]);
                     }
                     else
                     {
@@ -83,16 +84,23 @@ namespace hourCalc
                 // If setting is a boolean value (checkBox)
                 else if (control is System.Windows.Forms.CheckBox)
                 {
-                    int index = settingsMap[control.Name];
-                    if (settingsIn.Length > index)
+                    int index = dataMap[control.Name];
+                    if (dataIn.Length > index)
                     {
                         // Set with file value
                         System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.CheckBox)control).Checked = Convert.ToBoolean(settingsIn[index]);
+                        ((System.Windows.Forms.CheckBox)control).Checked = Convert.ToBoolean(dataIn[index]);
                     }
                     else
                     {
-                        ((System.Windows.Forms.CheckBox)control).Checked = true;
+                        if (control.Name == "checkBoxIgnoreCarryOver")
+                        {
+                            ((System.Windows.Forms.CheckBox)control).Checked = false;
+                        }
+                        else
+                        {
+                            ((System.Windows.Forms.CheckBox)control).Checked = true;
+                        }
                     }
                 }
             }
@@ -103,6 +111,7 @@ namespace hourCalc
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
+            // Save settings
             System.IO.StreamWriter file = new System.IO.StreamWriter("HC_Settings.dat");
 
             // Save default times
@@ -116,10 +125,13 @@ namespace hourCalc
                     file.WriteLine(Helper.formatTime(dateTime));
                 }
             }
-
             // Save two week cycle setting
             bool twoWeekCycle = checkBoxTwoWeekCycle.Checked;
             file.WriteLine(twoWeekCycle);
+
+            // Save ignore carry over hours setting
+            bool ignoreCarryOver = checkBoxIgnoreCarryOver.Checked;
+            file.WriteLine(ignoreCarryOver);
             file.Close();
 
             //Apply new settings to the main page
@@ -152,6 +164,11 @@ namespace hourCalc
         }
 
         private void checkBoxTwoWeekCycle_CheckedChanged(object sender, EventArgs e)
+        {
+            buttonApply.Enabled = true;
+        }
+
+        private void checkBoxIgnoreCarryOver_CheckedChanged(object sender, EventArgs e)
         {
             buttonApply.Enabled = true;
         }

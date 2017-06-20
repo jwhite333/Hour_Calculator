@@ -7,3 +7,13 @@ c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Relea
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Release\hourCalc.exe
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Release\hourCalc.pdb
 c:\Users\Jonny\documents\visual studio 2015\Projects\hourCalc\hourCalc\obj\Release\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Release\hourCalc.exe.config
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.exe
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.pdb
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Release\hourCalc.exe
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\bin\Release\hourCalc.pdb
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.csprojResolveAssemblyReference.cache
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.hourCalc.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.Properties.Resources.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.Settings.resources
+C:\Users\jwhite\Documents\GitHub\Hour_Calculator\hourCalc\obj\Release\hourCalc.csproj.GenerateResource.Cache

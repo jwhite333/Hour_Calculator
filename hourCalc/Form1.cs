@@ -15,11 +15,10 @@ namespace hourCalc
         public hourCalc()
         {
             InitializeComponent();
-            loadData();
         }
 
-        // My Additions
-        private System.Collections.Generic.Dictionary<string, int> timeMap = new System.Collections.Generic.Dictionary<string, int>()
+        // Private globals
+        private System.Collections.Generic.Dictionary<string, int> dataMap = new System.Collections.Generic.Dictionary<string, int>()
         {
             { "monStartTime", 0 },
             { "tueStartTime", 1 },
@@ -40,23 +39,39 @@ namespace hourCalc
             { "tueEndTime", 16 },
             { "wedEndTime", 17 },
             { "thuEndTime", 18 },
-            { "friEndTime", 19 }
+            { "friEndTime", 19 },
+            { "textBoxCarryOverHours", 20 },
+            { "weekNumber", 21 }
         };
 
-        private Helpers.config settings;
+        private week currentWeek;
+        private config settings;
         private Helpers Helper;
-        Settings settingsForm;
+        private double carryOverHours = 0.0;
+        private int weekNumber = 1;
 
+        private void hourCalc_Load(object sender, EventArgs e)
+        {
+            // Initialize days
+            day monday = new day(monStartTime, monLunchStartTime, monLunchEndTime, monEndTime);
+            day tuesday = new day(tueStartTime, tueLunchStartTime, tueLunchEndTime, tueEndTime);
+            day wednesday = new day(wedStartTime, wedLunchStartTime, wedLunchEndTime, wedEndTime);
+            day thursday = new day(thuStartTime, thuLunchStartTime, thuLunchEndTime, thuEndTime);
+            day friday = new day(friStartTime, friLunchStartTime, friLunchEndTime, friEndTime);
+            currentWeek = new week(monday, tuesday, wednesday, thursday, friday);
+
+            // Load data
+            loadData();
+        }
         public void loadData()
         {
             // Create Helpers instance
             Helper = new Helpers();
 
             // Load settings
-            settingsForm = new Settings(this);
             settings = Helper.getSettings();
 
-            var timesIn = Helper.readFile("HC_Data.dat");
+            var dataIn = Helper.readFile("HC_Data.dat");
 
             // Iterate through times and try to set them with values from file
             int counter = 0;
@@ -64,12 +79,12 @@ namespace hourCalc
             {
                 if (control is System.Windows.Forms.DateTimePicker)
                 {
-                    int index = timeMap[control.Name];
-                    if (timesIn.Length > index)
+                    int index = dataMap[control.Name];
+                    if (dataIn.Length > index)
                     {
                         // Set with file value
-                        System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(timesIn[index]);
+                        System.Console.WriteLine("Loading saved value for item: {0}", control.Name);
+                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(dataIn[index]);
                     }
                     else
                     {
@@ -89,99 +104,91 @@ namespace hourCalc
                         {
                             ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDay();
                         }
-                        System.Console.WriteLine("Setting min-value for index: {0}", index);
+                        System.Console.WriteLine("Setting default value for item: {0}", control.Name);
                     }
                     counter++;
                 }
             }
+
+            // Load the carry over hours
+            int indexCarryOver = dataMap["textBoxCarryOverHours"];
+            if (dataIn.Length > indexCarryOver)
+            {
+                // Set with file value
+                System.Console.WriteLine("Loading saved value for item: {0}", "textBoxCarryOverHours");
+                textBoxCarryOverHours.Text = dataIn[indexCarryOver];
+                carryOverHours = Convert.ToDouble(dataIn[indexCarryOver]);
+            }
+            else
+            {
+                carryOverHours = settings.defaultCarryOver();
+                textBoxCarryOverHours.Text = Convert.ToString(carryOverHours);
+                System.Console.WriteLine("Setting default value for item: {0}", "textBoxCarryOverHours");
+            }
+
+            // Load the week number
+            int indexWeekNum = dataMap["weekNumber"];
+            if (dataIn.Length > indexWeekNum)
+            {
+                // Set with file value
+                System.Console.WriteLine("Loading saved value for item: {0}", "weekNumber");
+                if (settings.twoWeekCycle())
+                    labelWeekNumber.Text = "Week: " + dataIn[indexWeekNum] + " / 2";
+                else
+                    labelWeekNumber.Text = "Week: " + dataIn[indexWeekNum] + " / 1";
+                weekNumber = Convert.ToInt32(dataIn[indexWeekNum]);
+            }
+            else
+            {
+                weekNumber = 1;
+                System.Console.WriteLine("Setting default value for item: {0}", "weekNumber");
+                if (settings.twoWeekCycle())
+                    labelWeekNumber.Text = "Week: 1 / 2";
+                else
+                    labelWeekNumber.Text = "Week: 1 / 1";
+            }
+            
+            // Set the ignore carry over hours field
+            if (settings.ignoreCarryOver() || !settings.twoWeekCycle())
+            {
+                textBoxCarryOverHours.Text = "Ignored";
+            }
         }
 
-        public double getDepartTime(string day)
+        public double getDepartTimeOffsetWeek()
         {
-            double result = 0.0;
-            switch (day)
+            double offset = 0.0;
+            offset += getDepartTimeOffsetDay(currentWeek.monday);
+            offset += getDepartTimeOffsetDay(currentWeek.tuesday);
+            offset += getDepartTimeOffsetDay(currentWeek.wednesday);
+            offset += getDepartTimeOffsetDay(currentWeek.thursday);
+            offset += getDepartTimeOffsetDay(currentWeek.friday);
+            return offset;
+        }
+
+        public double getDepartTimeOffsetDay(day weekday)
+        {
+            double morningHours = (Helper.timeToNum(weekday.lunchStart.Time()) - Helper.timeToNum(weekday.start.Time()));
+            double afternoonHours = (Helper.timeToNum(weekday.end.Time()) - Helper.timeToNum(weekday.lunchEnd.Time()));
+            if (morningHours < 0 || afternoonHours < 0)
             {
-                case "Monday":
-                    {
-                        double morningHours = (Helper.timeToNum(monLunchStartTime.Value) - Helper.timeToNum(monStartTime.Value));
-                        double afternoonHours = (Helper.timeToNum(monEndTime.Value) - Helper.timeToNum(monLunchEndTime.Value));
-                        if (morningHours < 0 || afternoonHours < 0)
-                        {
-                            MessageBox.Show("Undefined Result, check that time values are chronological", "Doble Hour Calculator");
-                            return -1.0;
-                        }
-                        result = 8 - (morningHours + afternoonHours);
-                        //result += timeToNum(monEndTime.Value);
-                    }
-                    break;
-                case "Tuesday":
-                    {
-                        double morningHours = (Helper.timeToNum(tueLunchStartTime.Value) - Helper.timeToNum(tueStartTime.Value));
-                        double afternoonHours = (Helper.timeToNum(tueEndTime.Value) - Helper.timeToNum(tueLunchEndTime.Value));
-                        if (morningHours < 0 || afternoonHours < 0)
-                        {
-                            MessageBox.Show("Undefined Result, check that time values are chronological");
-                            return -1.0;
-                        }
-                        result = 8 - (morningHours + afternoonHours);
-                        //result += timeToNum(tueEndTime.Value);
-                    }
-                    break;
-                case "Wednesday":
-                    {
-                        double morningHours = (Helper.timeToNum(wedLunchStartTime.Value) - Helper.timeToNum(wedStartTime.Value));
-                        double afternoonHours = (Helper.timeToNum(wedEndTime.Value) - Helper.timeToNum(wedLunchEndTime.Value));
-                        if (morningHours < 0 || afternoonHours < 0)
-                        {
-                            MessageBox.Show("Undefined Result, check that time values are chronological");
-                            return -1.0;
-                        }
-                        result = 8 - (morningHours + afternoonHours);
-                        //result += timeToNum(wedEndTime.Value);
-                    }
-                    break;
-                case "Thursday":
-                    {
-                        double morningHours = (Helper.timeToNum(thuLunchStartTime.Value) - Helper.timeToNum(thuStartTime.Value));
-                        double afternoonHours = (Helper.timeToNum(thuEndTime.Value) - Helper.timeToNum(thuLunchEndTime.Value));
-                        if (morningHours < 0 || afternoonHours < 0)
-                        {
-                            MessageBox.Show("Undefined Result, check that time values are chronological");
-                            return -1.0;
-                        }
-                        result = 8 - (morningHours + afternoonHours);
-                        //result += timeToNum(thuEndTime.Value);
-                    }
-                    break;
-                case "Friday":
-                    {
-                        double morningHours = (Helper.timeToNum(friLunchStartTime.Value) - Helper.timeToNum(friStartTime.Value));
-                        double afternoonHours = (Helper.timeToNum(friEndTime.Value) - Helper.timeToNum(friLunchEndTime.Value));
-                        if (morningHours < 0 || afternoonHours < 0)
-                        {
-                            MessageBox.Show("Undefined Result, check that time values are chronological");
-                            return -1.0;
-                        }
-                        result = 8 - (morningHours + afternoonHours);
-                        //result += timeToNum(friEndTime.Value);
-                    }
-                    break;
-                default:
-                    {
-                        MessageBox.Show("Undefined Result, check that time values are chronological");
-                        return -1.0;
-                    }
+                MessageBox.Show("Undefined Result, check that time values are chronological", "Doble Hour Calculator");
+                return -1.0;
             }
+            double result = 8 - (morningHours + afternoonHours); // Hours per day does not change at the moment
             return result;
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
+        public void saveData(bool userVisible)
         {
-            MessageBox.Show("Saved!", "Doble Hour Calculator");
+            if (userVisible)
+            {
+                MessageBox.Show("Saved!", "Doble Hour Calculator");
+            }
 
             System.IO.StreamWriter file = new System.IO.StreamWriter("HC_Data.dat");
             foreach (System.Windows.Forms.Control control in this.tableLayoutPanel1.Controls)
-                {
+            {
                 if (control is System.Windows.Forms.DateTimePicker)
                 {
                     // Write the string to a file.
@@ -190,39 +197,65 @@ namespace hourCalc
                     file.WriteLine(Helper.formatTime(dateTime));
                 }
             }
+            // Save carry over hours
+            file.WriteLine(carryOverHours);
+            System.Console.WriteLine("Saved carryOverHours");
+
+            // Save week number
+            file.WriteLine(weekNumber);
+            System.Console.WriteLine("Saved weekNumber");
+
             file.Close();
+        }
+
+        public void clearDataFile()
+        {
+            // Clear Data file
+            System.IO.FileStream fileStream = new System.IO.FileStream("HC_Data.dat", System.IO.FileMode.Truncate);
+            fileStream.Close();
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            // Save and alert the user
+            saveData(true);
         }
 
         private void buttonCalcDay_Click(object sender, EventArgs e)
         {
             // Get departure time for a specific day
             string day = this.comboBoxSelectDay.SelectedItem.ToString();
-            double result = getDepartTime(day);
+            double result = 0.0;
 
             switch (day)
             {
                 case "Monday":
                     {
+                        result = getDepartTimeOffsetDay(currentWeek.monday);
                         result += Helper.timeToNum(monEndTime.Value);
                     }
                     break;
                 case "Tuesday":
                     {
+                        result = getDepartTimeOffsetDay(currentWeek.tuesday);
                         result += Helper.timeToNum(tueEndTime.Value);
                     }
                     break;
                 case "Wednesday":
                     {
+                        result = getDepartTimeOffsetDay(currentWeek.wednesday);
                         result += Helper.timeToNum(wedEndTime.Value);
                     }
                     break;
                 case "Thursday":
                     {
+                        result = getDepartTimeOffsetDay(currentWeek.thursday);
                         result += Helper.timeToNum(thuEndTime.Value);
                     }
                     break;
                 case "Friday":
                     {
+                        result = getDepartTimeOffsetDay(currentWeek.friday);
                         result += Helper.timeToNum(friEndTime.Value);
                     }
                     break;
@@ -235,22 +268,23 @@ namespace hourCalc
 
         private void buttonCalcWeek_Click(object sender, EventArgs e)
         {
-            double monResult = getDepartTime("Monday");
-            double tueResult = getDepartTime("Tuesday");
-            double wedResult = getDepartTime("Wednesday");
-            double thuResult = getDepartTime("Thursday");
-            double friResult = getDepartTime("Friday");
-            double result = monResult + tueResult + wedResult + thuResult + friResult + Helper.timeToNum(friEndTime.Value);
+            double result = getDepartTimeOffsetWeek() + Helper.timeToNum(friEndTime.Value);
+
+            // If the past week hours have not been ignored, add them
+            if (!settings.ignoreCarryOver() && settings.twoWeekCycle())
+            {
+                result += carryOverHours;
+            }
 
             // Set value
             System.DateTime Time = Helper.numToTime(result);
             this.calcDprtFriOutput.Text = Helper.timeToString(Time);
         }
 
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void buttonNewWeek_Click(object sender, EventArgs e)
         {
             // Check if the user actually wanted to clear the table
-            string message = "Did you really want to clear the table?";
+            string message = "Did you really want to advance to another week? This will remove all data from the current table";
             string caption = "Doble Hour Calculator";
             MessageBoxButtons buttons = MessageBoxButtons.YesNo;
             DialogResult result;
@@ -259,10 +293,38 @@ namespace hourCalc
 
             if (result == System.Windows.Forms.DialogResult.Yes)
             {
-                // Clear Data file
-                System.IO.FileStream fileStream = new System.IO.FileStream("HC_Data.dat", System.IO.FileMode.Truncate);
-                fileStream.Close();
-                this.loadData();
+                if (settings.twoWeekCycle())
+                {
+                     // Two week cycle is enabled
+                    switch (weekNumber)
+                    {
+                        case 1:
+                            {
+                                // Get carry over hours
+                                weekNumber = 2;
+                                carryOverHours = getDepartTimeOffsetWeek();
+
+                                // Reset times for new week
+                                currentWeek.resetWeekTimes(settings);
+                                saveData(false); // Do not alert the user
+                                break;
+                            }
+                        case 2:
+                            {
+                                // Load first week data from defaults
+                                clearDataFile();
+                                break;
+                            }
+                    }
+                }
+                else
+                {
+                    // Load new week data from defaults
+                    clearDataFile();
+                }
+
+                // Load new data
+                loadData();
             }
             else
                 return;
@@ -271,6 +333,7 @@ namespace hourCalc
         private void ConfigButton_Click(object sender, EventArgs e)
         {
             // Load a new form that shows configuration data
+            Settings settingsForm = new Settings(this);
             settingsForm.Show();
         }
     }

@@ -70,10 +70,11 @@
             this.labelTitle = new System.Windows.Forms.Label();
             this.labelCalcDprtDay = new System.Windows.Forms.Label();
             this.labelCalcDprtFri = new System.Windows.Forms.Label();
-            this.buttonClear = new System.Windows.Forms.Button();
+            this.buttonNewWeek = new System.Windows.Forms.Button();
             this.buttonSettings = new System.Windows.Forms.Button();
             this.labelCarryOverHours = new System.Windows.Forms.Label();
             this.textBoxCarryOverHours = new System.Windows.Forms.TextBox();
+            this.labelWeekNumber = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -566,7 +567,7 @@
             this.labelTitle.Font = new System.Drawing.Font("Arial Black", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelTitle.Location = new System.Drawing.Point(350, 52);
             this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(403, 45);
+            this.labelTitle.Size = new System.Drawing.Size(404, 45);
             this.labelTitle.TabIndex = 0;
             this.labelTitle.Text = "Doble Hour Calculator";
             // 
@@ -590,16 +591,16 @@
             this.labelCalcDprtFri.TabIndex = 10;
             this.labelCalcDprtFri.Text = "Calculate Friday Departure Time:";
             // 
-            // buttonClear
+            // buttonNewWeek
             // 
-            this.buttonClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonClear.Location = new System.Drawing.Point(876, 773);
-            this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(150, 23);
-            this.buttonClear.TabIndex = 11;
-            this.buttonClear.Text = "Clear Table";
-            this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.buttonNewWeek.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonNewWeek.Location = new System.Drawing.Point(876, 773);
+            this.buttonNewWeek.Name = "buttonNewWeek";
+            this.buttonNewWeek.Size = new System.Drawing.Size(150, 23);
+            this.buttonNewWeek.TabIndex = 11;
+            this.buttonNewWeek.Text = "New Week";
+            this.buttonNewWeek.UseVisualStyleBackColor = true;
+            this.buttonNewWeek.Click += new System.EventHandler(this.buttonNewWeek_Click);
             // 
             // buttonSettings
             // 
@@ -616,7 +617,7 @@
             // 
             this.labelCarryOverHours.AutoSize = true;
             this.labelCarryOverHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelCarryOverHours.Location = new System.Drawing.Point(12, 216);
+            this.labelCarryOverHours.Location = new System.Drawing.Point(12, 256);
             this.labelCarryOverHours.Name = "labelCarryOverHours";
             this.labelCarryOverHours.Size = new System.Drawing.Size(130, 16);
             this.labelCarryOverHours.TabIndex = 13;
@@ -625,12 +626,22 @@
             // textBoxCarryOverHours
             // 
             this.textBoxCarryOverHours.BackColor = System.Drawing.SystemColors.Window;
-            this.textBoxCarryOverHours.Location = new System.Drawing.Point(54, 261);
+            this.textBoxCarryOverHours.Location = new System.Drawing.Point(54, 286);
             this.textBoxCarryOverHours.Multiline = true;
             this.textBoxCarryOverHours.Name = "textBoxCarryOverHours";
             this.textBoxCarryOverHours.ReadOnly = true;
             this.textBoxCarryOverHours.Size = new System.Drawing.Size(135, 30);
             this.textBoxCarryOverHours.TabIndex = 14;
+            // 
+            // labelWeekNumber
+            // 
+            this.labelWeekNumber.AutoSize = true;
+            this.labelWeekNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWeekNumber.Location = new System.Drawing.Point(12, 216);
+            this.labelWeekNumber.Name = "labelWeekNumber";
+            this.labelWeekNumber.Size = new System.Drawing.Size(85, 16);
+            this.labelWeekNumber.TabIndex = 15;
+            this.labelWeekNumber.Text = "Week: 1 / 2";
             // 
             // hourCalc
             // 
@@ -638,10 +649,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1415, 821);
+            this.Controls.Add(this.labelWeekNumber);
             this.Controls.Add(this.textBoxCarryOverHours);
             this.Controls.Add(this.labelCarryOverHours);
             this.Controls.Add(this.buttonSettings);
-            this.Controls.Add(this.buttonClear);
+            this.Controls.Add(this.buttonNewWeek);
             this.Controls.Add(this.labelCalcDprtFri);
             this.Controls.Add(this.labelCalcDprtDay);
             this.Controls.Add(this.panel1);
@@ -655,6 +667,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "hourCalc";
             this.Text = "Doble Hour Calculator";
+            this.Load += new System.EventHandler(this.hourCalc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
@@ -688,7 +701,7 @@
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Label labelCalcDprtDay;
         private System.Windows.Forms.Label labelCalcDprtFri;
-        private System.Windows.Forms.Button buttonClear;
+        private System.Windows.Forms.Button buttonNewWeek;
         private System.Windows.Forms.DateTimePicker monStartTime;
         private System.Windows.Forms.DateTimePicker tueStartTime;
         private System.Windows.Forms.DateTimePicker wedStartTime;
@@ -712,6 +725,7 @@
         private System.Windows.Forms.Button buttonSettings;
         private System.Windows.Forms.Label labelCarryOverHours;
         private System.Windows.Forms.TextBox textBoxCarryOverHours;
+        private System.Windows.Forms.Label labelWeekNumber;
     }
 }
 

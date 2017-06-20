@@ -6,43 +6,107 @@ using System.Threading.Tasks;
 
 namespace hourCalc
 {
+    // Day structure
+    public struct day
+    {
+        public day(System.Windows.Forms.DateTimePicker arg0, System.Windows.Forms.DateTimePicker arg1, System.Windows.Forms.DateTimePicker arg2, System.Windows.Forms.DateTimePicker arg3)
+        {
+            start = arg0;
+            lunchStart = arg1;
+            lunchEnd = arg2;
+            end = arg3;
+        }
+        public System.Windows.Forms.DateTimePicker start;
+        public System.Windows.Forms.DateTimePicker lunchStart;
+        public System.Windows.Forms.DateTimePicker lunchEnd;
+        public System.Windows.Forms.DateTimePicker end;
+    };
+
+    // Week structure
+    public struct week
+    {
+        public week(day arg0, day arg1, day arg2, day arg3, day arg4)
+        {
+            monday = arg0;
+            tuesday = arg1;
+            wednesday = arg2;
+            thursday = arg3;
+            friday = arg4;
+            days = new List<day> { monday, tuesday, wednesday, thursday, friday };
+        }
+        public void resetWeekTimes(config config)
+        {
+            foreach (var day in days )
+            {
+                day.start.Value = config.defaultStartOfDay();
+                day.lunchStart.Value = config.defaultLunchStart();
+                day.lunchEnd.Value = config.defaultLunchEnd();
+                day.end.Value = config.defaultEndOfDay();
+            }
+        }
+        public day monday;
+        public day tuesday;
+        public day wednesday;
+        public day thursday;
+        public day friday;
+        List<day> days;
+    };
+
+    // Configuration settings structure
+    public struct config
+    {
+        public config(System.DateTime arg0, System.DateTime arg1, System.DateTime arg2, System.DateTime arg3, bool arg4, bool arg5)
+        {
+            defaultStartOfDayTime = arg0;
+            defaultLunchStartTime = arg1;
+            defaultLunchEndTime = arg2;
+            defaultEndOfDayTime = arg3;
+            defaultCarryOverHours = 0.0; // This should always be 0.0
+            twoWeekCycleEnabled = arg4;
+            ignoreCarryOverHours = arg5;
+        }
+        public System.DateTime defaultStartOfDay()
+        {
+            return defaultStartOfDayTime;
+        }
+        public System.DateTime defaultLunchStart()
+        {
+            return defaultLunchStartTime;
+        }
+        public System.DateTime defaultLunchEnd()
+        {
+            return defaultLunchEndTime;
+        }
+        public System.DateTime defaultEndOfDay()
+        {
+            return defaultEndOfDayTime;
+        }
+        public double defaultCarryOver()
+        {
+            return defaultCarryOverHours;
+        }
+        public bool twoWeekCycle()
+        {
+            return twoWeekCycleEnabled;
+        }
+        public bool ignoreCarryOver()
+        {
+            return ignoreCarryOverHours;
+        }
+        System.DateTime defaultStartOfDayTime;
+        System.DateTime defaultLunchStartTime;
+        System.DateTime defaultLunchEndTime;
+        System.DateTime defaultEndOfDayTime;
+        double defaultCarryOverHours;
+        bool twoWeekCycleEnabled;
+        bool ignoreCarryOverHours;
+    };
+
+
+
     // Do generic things like load files
     class Helpers
     {
-        // Settings object
-        public struct config
-        {
-            public config(System.DateTime arg0, System.DateTime arg1, System.DateTime arg2, System.DateTime arg3, bool arg4)
-            {
-                defaultStartOfDayTime = arg0;
-                defaultLunchStartTime = arg1;
-                defaultLunchEndTime = arg2;
-                defaultEndOfDayTime = arg3;
-                twoWeekCycleEnabled = arg4;
-            }
-            public System.DateTime defaultStartOfDay()
-            {
-                return defaultStartOfDayTime;
-            }
-            public System.DateTime defaultLunchStart()
-            {
-                return defaultLunchStartTime;
-            }
-            public System.DateTime defaultLunchEnd()
-            {
-                return defaultLunchEndTime;
-            }
-            public System.DateTime defaultEndOfDay()
-            {
-                return defaultEndOfDayTime;
-            }
-            System.DateTime defaultStartOfDayTime;
-            System.DateTime defaultLunchStartTime;
-            System.DateTime defaultLunchEndTime;
-            System.DateTime defaultEndOfDayTime;
-            bool twoWeekCycleEnabled;
-        };
-
         // Create formatted string from dateTime for file output
         public string dateTimeOutput(System.DateTime dateTime)
         {
@@ -81,12 +145,14 @@ namespace hourCalc
             var settingsIn = readFile("HC_Settings.dat");
             if (settingsIn.Length <= 0)
             {
+                // This is where the default settings are initialized if they have not been previously modified
                 config default_settings = new config(
                     getTime("08:00:00"),
                     getTime("12:00:00"),
                     getTime("13:00:00"),
                     getTime("17:00:00"),
-                    true);
+                    true,
+                    false);
                 return default_settings;
             }
             else
@@ -96,7 +162,8 @@ namespace hourCalc
                     getTime(settingsIn[1]),
                     getTime(settingsIn[2]),
                     getTime(settingsIn[3]),
-                    Convert.ToBoolean(settingsIn[4]));
+                    Convert.ToBoolean(settingsIn[4]),
+                    Convert.ToBoolean(settingsIn[5]));
                 return loaded_settings;
             }
         }
@@ -169,4 +236,13 @@ namespace hourCalc
             return(hours + ":" + minutes + ":" + seconds);
         }
     }
+
+    public static class Extensions
+    {
+        public static System.DateTime Time(this System.Windows.Forms.DateTimePicker dateTime)
+        {
+            // This renames the .Value() method of a DateTimePicker to be more clear
+            return dateTime.Value;
+        }
+    }   
 }

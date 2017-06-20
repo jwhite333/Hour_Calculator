@@ -38,10 +38,10 @@ namespace hourCalc
         {
             foreach (var day in days )
             {
-                day.start.Value = config.defaultStartOfDay();
-                day.lunchStart.Value = config.defaultLunchStart();
-                day.lunchEnd.Value = config.defaultLunchEnd();
-                day.end.Value = config.defaultEndOfDay();
+                day.start.Value = config.defaultStartOfDayTime;
+                day.lunchStart.Value = config.defaultLunchStartTime;
+                day.lunchEnd.Value = config.defaultLunchEndTime;
+                day.end.Value = config.defaultEndOfDayTime;
             }
         }
         public day monday;
@@ -65,7 +65,7 @@ namespace hourCalc
             twoWeekCycleEnabled = arg4;
             ignoreCarryOverHours = arg5;
         }
-        public System.DateTime defaultStartOfDay()
+        /*public System.DateTime defaultStartOfDay()
         {
             return defaultStartOfDayTime;
         }
@@ -92,14 +92,14 @@ namespace hourCalc
         public bool ignoreCarryOver()
         {
             return ignoreCarryOverHours;
-        }
-        System.DateTime defaultStartOfDayTime;
-        System.DateTime defaultLunchStartTime;
-        System.DateTime defaultLunchEndTime;
-        System.DateTime defaultEndOfDayTime;
-        double defaultCarryOverHours;
-        bool twoWeekCycleEnabled;
-        bool ignoreCarryOverHours;
+        }*/
+        public System.DateTime defaultStartOfDayTime;
+        public System.DateTime defaultLunchStartTime;
+        public System.DateTime defaultLunchEndTime;
+        public System.DateTime defaultEndOfDayTime;
+        public double defaultCarryOverHours;
+        public bool twoWeekCycleEnabled;
+        public bool ignoreCarryOverHours;
     };
 
 

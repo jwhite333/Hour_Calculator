@@ -90,19 +90,19 @@ namespace hourCalc
                     {
                         if (counter >= 0 && counter < 5) // Start of day time, set to 8:00 AM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultStartOfDay();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultStartOfDayTime;
                         }
                         if (counter >= 5 && counter < 10) // Start of lunch time, set to 12:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchStart();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchStartTime;
                         }
                         if (counter >= 10 && counter < 15) // End of lunch time, set to 01:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchEnd();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchEndTime;
                         }
                         if (counter >= 15 && counter < 20) // End of day time, set to 05:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDay();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDayTime;
                         }
                         System.Console.WriteLine("Setting default value for item: {0}", control.Name);
                     }
@@ -116,12 +116,20 @@ namespace hourCalc
             {
                 // Set with file value
                 System.Console.WriteLine("Loading saved value for item: {0}", "textBoxCarryOverHours");
-                textBoxCarryOverHours.Text = dataIn[indexCarryOver];
                 carryOverHours = Convert.ToDouble(dataIn[indexCarryOver]);
+                if (carryOverHours == settings.defaultCarryOverHours)
+                    labelCarryOverHours.Text = "Last Week Hours:";
+                else if (carryOverHours > settings.defaultCarryOverHours)
+                    labelCarryOverHours.Text = "Last Week Hours: ( Behind )";
+                else
+                    labelCarryOverHours.Text = "Last Week Hours: ( Ahead )";
+                textBoxCarryOverHours.Text = Convert.ToString(Math.Abs(carryOverHours));
+                
             }
             else
             {
-                carryOverHours = settings.defaultCarryOver();
+                carryOverHours = settings.defaultCarryOverHours;
+                labelCarryOverHours.Text = "Last Week Hours:";
                 textBoxCarryOverHours.Text = Convert.ToString(carryOverHours);
                 System.Console.WriteLine("Setting default value for item: {0}", "textBoxCarryOverHours");
             }
@@ -132,7 +140,7 @@ namespace hourCalc
             {
                 // Set with file value
                 System.Console.WriteLine("Loading saved value for item: {0}", "weekNumber");
-                if (settings.twoWeekCycle())
+                if (settings.twoWeekCycleEnabled)
                     labelWeekNumber.Text = "Week: " + dataIn[indexWeekNum] + " / 2";
                 else
                     labelWeekNumber.Text = "Week: " + dataIn[indexWeekNum] + " / 1";
@@ -142,14 +150,14 @@ namespace hourCalc
             {
                 weekNumber = 1;
                 System.Console.WriteLine("Setting default value for item: {0}", "weekNumber");
-                if (settings.twoWeekCycle())
+                if (settings.twoWeekCycleEnabled)
                     labelWeekNumber.Text = "Week: 1 / 2";
                 else
                     labelWeekNumber.Text = "Week: 1 / 1";
             }
             
             // Set the ignore carry over hours field
-            if (settings.ignoreCarryOver() || !settings.twoWeekCycle())
+            if (settings.ignoreCarryOverHours || !settings.twoWeekCycleEnabled)
             {
                 textBoxCarryOverHours.Text = "Ignored";
             }
@@ -271,7 +279,7 @@ namespace hourCalc
             double result = getDepartTimeOffsetWeek() + Helper.timeToNum(friEndTime.Value);
 
             // If the past week hours have not been ignored, add them
-            if (!settings.ignoreCarryOver() && settings.twoWeekCycle())
+            if (!settings.ignoreCarryOverHours && settings.twoWeekCycleEnabled)
             {
                 result += carryOverHours;
             }
@@ -293,7 +301,7 @@ namespace hourCalc
 
             if (result == System.Windows.Forms.DialogResult.Yes)
             {
-                if (settings.twoWeekCycle())
+                if (settings.twoWeekCycleEnabled)
                 {
                      // Two week cycle is enabled
                     switch (weekNumber)

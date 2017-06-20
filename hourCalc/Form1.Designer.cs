@@ -75,6 +75,8 @@
             this.labelCarryOverHours = new System.Windows.Forms.Label();
             this.textBoxCarryOverHours = new System.Windows.Forms.TextBox();
             this.labelWeekNumber = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -643,12 +645,33 @@
             this.labelWeekNumber.TabIndex = 15;
             this.labelWeekNumber.Text = "Week: 1 / 2";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(12, 394);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(190, 26);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "* Targets 8 hours and ignores any data\r\n   from other days";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(9, 600);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(212, 26);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "* Determines from current settings and past \r\n   week data when on Friday to punc" +
+    "h out";
+            // 
             // hourCalc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.ClientSize = new System.Drawing.Size(1415, 821);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelWeekNumber);
             this.Controls.Add(this.textBoxCarryOverHours);
             this.Controls.Add(this.labelCarryOverHours);
@@ -726,6 +749,8 @@
         private System.Windows.Forms.Label labelCarryOverHours;
         private System.Windows.Forms.TextBox textBoxCarryOverHours;
         private System.Windows.Forms.Label labelWeekNumber;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 

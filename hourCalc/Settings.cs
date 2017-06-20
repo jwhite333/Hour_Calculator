@@ -62,19 +62,19 @@ namespace hourCalc
                     {
                         if (counter == 0) // Start of day time, set to 8:00 AM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultStartOfDay();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultStartOfDayTime;
                         }
                         if (counter == 1) // Start of lunch time, set to 12:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchStart();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchStartTime;
                         }
                         if (counter == 2) // End of lunch time, set to 01:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchEnd();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultLunchEndTime;
                         }
                         if (counter == 3) // End of day time, set to 05:00 PM
                         {
-                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDay();
+                            ((System.Windows.Forms.DateTimePicker)control).Value = settings.defaultEndOfDayTime;
                         }
                         System.Console.WriteLine("Setting min-value for index: {0}", index);
                     }
@@ -111,6 +111,20 @@ namespace hourCalc
 
         private void buttonApply_Click(object sender, EventArgs e)
         {
+            // Check to make sure times add up to 8 hours
+            double morningHours = (Helper.timeToNum(LunchStartTime.Time()) - Helper.timeToNum(StartOfDayTime.Time()));
+            double afternoonHours = (Helper.timeToNum(EndOfDayTime.Time()) - Helper.timeToNum(LunchEndTime.Time()));
+            if (morningHours < 0 || afternoonHours < 0)
+            {
+                MessageBox.Show("Current time settings do not create an 8 hour workday, please revise", "Doble Hour Calculator");
+                return;
+            }
+            if (Helper.timeToNum(LunchEndTime.Time()) - Helper.timeToNum(LunchStartTime.Time()) < 0.5)
+            {
+                MessageBox.Show("Current time settings do not allow for a mandatory 30 min lunch, please revise", "Doble Hour Calculator");
+                return;
+            }
+
             // Save settings
             System.IO.StreamWriter file = new System.IO.StreamWriter("HC_Settings.dat");
 

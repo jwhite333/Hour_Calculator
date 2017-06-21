@@ -65,34 +65,6 @@ namespace hourCalc
             twoWeekCycleEnabled = arg4;
             ignoreCarryOverHours = arg5;
         }
-        /*public System.DateTime defaultStartOfDay()
-        {
-            return defaultStartOfDayTime;
-        }
-        public System.DateTime defaultLunchStart()
-        {
-            return defaultLunchStartTime;
-        }
-        public System.DateTime defaultLunchEnd()
-        {
-            return defaultLunchEndTime;
-        }
-        public System.DateTime defaultEndOfDay()
-        {
-            return defaultEndOfDayTime;
-        }
-        public double defaultCarryOver()
-        {
-            return defaultCarryOverHours;
-        }
-        public bool twoWeekCycle()
-        {
-            return twoWeekCycleEnabled;
-        }
-        public bool ignoreCarryOver()
-        {
-            return ignoreCarryOverHours;
-        }*/
         public System.DateTime defaultStartOfDayTime;
         public System.DateTime defaultLunchStartTime;
         public System.DateTime defaultLunchEndTime;
@@ -107,21 +79,6 @@ namespace hourCalc
     // Do generic things like load files
     class Helpers
     {
-        // Create formatted string from dateTime for file output
-        public string dateTimeOutput(System.DateTime dateTime)
-        {
-            string hours = dateTime.Hour.ToString();
-            if (hours.Length == 1)
-                hours = hours.Insert(0, "0");
-            string minutes = dateTime.Minute.ToString();
-            if (minutes.Length == 1)
-                minutes = minutes.Insert(0, "0");
-            string seconds = dateTime.Second.ToString();
-            if (seconds.Length == 1)
-                seconds = seconds.Insert(0, "0");
-            return (hours + ":" + minutes + ":" + seconds);
-        }
-
         // Read values from a file into string array
         public string [] readFile(string file)
         {
@@ -147,10 +104,10 @@ namespace hourCalc
             {
                 // This is where the default settings are initialized if they have not been previously modified
                 config default_settings = new config(
-                    getTime("08:00:00"),
-                    getTime("12:00:00"),
-                    getTime("13:00:00"),
-                    getTime("17:00:00"),
+                    stringToTime("08:00:00"),
+                    stringToTime("12:00:00"),
+                    stringToTime("13:00:00"),
+                    stringToTime("17:00:00"),
                     true,
                     false);
                 return default_settings;
@@ -158,10 +115,10 @@ namespace hourCalc
             else
             {
                 config loaded_settings = new config(
-                    getTime(settingsIn[0]),
-                    getTime(settingsIn[1]),
-                    getTime(settingsIn[2]),
-                    getTime(settingsIn[3]),
+                    stringToTime(settingsIn[0]),
+                    stringToTime(settingsIn[1]),
+                    stringToTime(settingsIn[2]),
+                    stringToTime(settingsIn[3]),
                     Convert.ToBoolean(settingsIn[4]),
                     Convert.ToBoolean(settingsIn[5]));
                 return loaded_settings;
@@ -190,50 +147,13 @@ namespace hourCalc
 
         public string timeToString(System.DateTime dateTime)
         {
-            string specifier = "  AM";
-            int hourNum = dateTime.Hour;
-            if (hourNum > 12)
-            {
-                hourNum = dateTime.Hour - 12;
-                specifier = "  PM";
-            }
-            string hours = hourNum.ToString();
-            string minutes = dateTime.Minute.ToString();
-            string seconds = dateTime.Second.ToString();
-            if (minutes.Length == 1)
-                minutes = minutes.Insert(0, "0");
-            if (seconds.Length == 1)
-                seconds = seconds.Insert(0, "0");
-            return (hours + ":" + minutes + ":" + seconds + specifier);
+            return dateTime.ToString("hh:mm:ss  tt");
         }
 
-        public System.DateTime getTime(string time)
+        public System.DateTime stringToTime(string time)
         {
             // Get formatted time
-            while (time[0] == ' ')
-                time = time.Substring(1, time.Length - 1);
-            int indexOfColon = time.IndexOf(":");
-            int hours = System.Convert.ToInt32(time.Substring(0, indexOfColon));
-            int minutes = System.Convert.ToInt32(time.Substring(indexOfColon + 1, 2));
-            int seconds = System.Convert.ToInt32(time.Substring(indexOfColon + 4, 2));
-
-            // Create a DateTime object
-            System.DateTime dateTime = new DateTime(2017, 1, 1, hours, minutes, seconds);
-            return dateTime;
-        }
-
-        public string formatTime(System.DateTime dateTime)
-        {
-            string hours = dateTime.Hour.ToString();
-            if (hours.Length == 1)
-                hours = hours.Insert(0, "0");
-            string minutes = dateTime.Minute.ToString();
-            if (minutes.Length == 1)
-                minutes = minutes.Insert(0, "0");
-            string seconds = dateTime.Second.ToString();
-            if (seconds.Length == 1)
-                seconds = seconds.Insert(0, "0");
-            return(hours + ":" + minutes + ":" + seconds);
+            return DateTime.Parse(time);
         }
     }
 

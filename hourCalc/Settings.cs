@@ -56,7 +56,7 @@ namespace hourCalc
                     {
                         // Set with file value
                         System.Console.WriteLine("Loading saved value for index: {0}", index);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(dataIn[index]);
+                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.stringToTime(dataIn[index]);
                     }
                     else
                     {
@@ -136,7 +136,7 @@ namespace hourCalc
                     // Write the string to a file.
                     System.Console.WriteLine("Saved time for {0}", control.Name);
                     System.DateTime dateTime = ((System.Windows.Forms.DateTimePicker)control).Value;
-                    file.WriteLine(Helper.formatTime(dateTime));
+                    file.WriteLine(Helper.timeToString(dateTime));
                 }
             }
             // Save two week cycle setting

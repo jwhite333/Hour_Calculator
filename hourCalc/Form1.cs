@@ -73,6 +73,11 @@ namespace hourCalc
 
             var dataIn = Helper.readFile("HC_Data.dat");
 
+            // Set comboBoxSelectDay to be the current day of the week
+            System.DateTime today = System.DateTime.Now;
+            string weekday = Convert.ToString(today.DayOfWeek);
+            comboBoxSelectDay.SelectedItem = weekday;
+
             // Iterate through times and try to set them with values from file
             int counter = 0;
             foreach (System.Windows.Forms.Control control in this.tableLayoutPanel1.Controls)
@@ -84,7 +89,7 @@ namespace hourCalc
                     {
                         // Set with file value
                         System.Console.WriteLine("Loading saved value for item: {0}", control.Name);
-                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.getTime(dataIn[index]);
+                        ((System.Windows.Forms.DateTimePicker)control).Value = Helper.stringToTime(dataIn[index]);
                     }
                     else
                     {
@@ -202,7 +207,7 @@ namespace hourCalc
                     // Write the string to a file.
                     System.Console.WriteLine("Saved time for {0}", control.Name);
                     System.DateTime dateTime = ((System.Windows.Forms.DateTimePicker)control).Value;
-                    file.WriteLine(Helper.formatTime(dateTime));
+                    file.WriteLine(Helper.timeToString(dateTime));
                 }
             }
             // Save carry over hours
